@@ -6,11 +6,10 @@ fn main() {
     let veritabani = db_baglanti_fn();
 
     match veritabani {
-        Ok(veritabani) => println!("bağlantı sağlandı"),
+        Ok(veritabani) => println!("Bağlantı sağlandı."),
         Err(e) => {
-            println!("işlem başarılı değil");
-            println!("{:?\
-            }", e.as_db_error())
+            println!("Bağlantıda hata var!");
+            println!("{:?}", e.as_db_error())
         }
     }
 
@@ -25,7 +24,7 @@ fn main() {
 
 fn db_baglanti_fn() -> Result<Client, Error> {
     let db_baglanti = Client::connect(
-        "postgresql://hakanbiris:Turgutlu:45@192.168.1.30/soszluk",
+        "postgresql://hakanbiris:Turgutlu:45@192.168.1.30/soz1luk",
         NoTls,
     )?;
 
