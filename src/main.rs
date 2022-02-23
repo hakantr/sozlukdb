@@ -9,7 +9,8 @@ fn main() {
         Ok(veritabani) => println!("bağlantı sağlandı"),
         Err(e) => {
             println!("işlem başarılı değil");
-            println!("{}", e)
+            println!("{:?\
+            }", e.as_db_error())
         }
     }
 
