@@ -1,26 +1,22 @@
 use postgres::{Client, Error, Row, NoTls};
 
 fn main() {
-    let mut veritabani = db_baglanti_fn();
+
+    //let mut veritabani = db_baglanti_fn();
+
+    let mut veritabani:Option<Client> = match db_baglanti_fn() {
+        Ok(veritabani) => Some(veritabani),
+        Err(e) => None,
+    };
+    let mut satirlar:Option<Vec<Row>>=None;
 
     match veritabani {
-        Ok(veritabani) => {
-           let mut sorgu = db_sorgusu_fn( veritabani);
-            println!("denden")
+        Some(mut veritabani) => {
+            db_sorgusu_fn(&mut veritabani, &mut satirlar);
         },
-        Err(e) => {
-            println!("Bağlantıda hata var!");
-            println!("{:?}", e.as_db_error())
-        }
+        None => println!("Bağlantı başarısız!")
     }
-
     println!("hakan");
-
-    //    if veritabani.is_err() {
-    //        println!("hatalı ");
-    //    } else {
-    //        println!("bağlantı sağlandı")
-    //    }
 }
 
 fn db_baglanti_fn() -> Result<Client, Error> {
@@ -30,17 +26,12 @@ fn db_baglanti_fn() -> Result<Client, Error> {
     )?;
 
     Ok(db_baglanti)
-
 }
 
-
-
-fn db_sorgusu_fn(mut veritabani: Client) -> Result<Vec<Row>, Error> {
-
-    let sorgu = veritabani.query(
-        "select * from kelimeler limit 25",
-        &[]
-    )?;
-
-    Ok(sorgu)
+fn db_sorgusu_fn(veritabani: &mut Client, satirlar: &mut Option<Vec<Row>>){
+    *satirlar = match veritabani.query("select * from kelimeler limit 25",&[]){
+        Ok(T) => {Some(T)},
+        Err(e) =>{None},
+    };
 }
+
