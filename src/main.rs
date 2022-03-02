@@ -16,7 +16,7 @@ fn main() {
         Some(mut satirlar) => {
             for i in satirlar {
                 let soz: &str = i.get("sozcuk");
-                println!("{:?}", soz);
+                println!("{}", soz);
             }
         }
         None => println!("Tablo bulunamadı."),
