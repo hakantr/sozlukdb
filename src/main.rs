@@ -16,7 +16,7 @@ fn main() {
         Some(mut satirlar) => {
             for i in satirlar {
                 let soz: &str = i.get("sozcuk");
-                println!("{:?}", soz);
+                println!("{}", soz);
             }
         }
         None => println!("Tablo bulunamadı."),
@@ -28,14 +28,14 @@ fn db_baglantı_fn(veritabani: &mut Option<Client>) {
         "postgresql://hakanbiris:Turgutlu:45@192.168.1.30/sozluk",
         NoTls,
     ) {
-        Ok(T) => Some(T),
+        Ok(t) => Some(t),
         Err(e) => None,
     };
 }
 
 fn db_sorgusu_fn(veritabani: &mut Client, satirlar: &mut Option<Vec<Row>>) {
-    *satirlar = match veritabani.query("select id, sozcuk, kok from kelimeler limit 205", &[]) {
-        Ok(T) => Some(T),
+    *satirlar = match veritabani.query("select id, sozcuk, kok from kelimeler", &[]) {
+        Ok(t) => Some(t),
         Err(e) => None,
     };
 }
